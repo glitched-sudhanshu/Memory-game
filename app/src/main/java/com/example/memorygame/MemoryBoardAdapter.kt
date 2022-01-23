@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.memorygame.models.BoardSize
 import com.example.memorygame.models.MemoryCard
@@ -16,7 +18,8 @@ class MemoryBoardAdapter(
     private val context: Context,
     private val boardSize: BoardSize,
     private val cards: List<MemoryCard>,
-    private val cardClickListener: CardClickListener) :
+    private val cardClickListener: CardClickListener
+) :
     RecyclerView.Adapter<MemoryBoardAdapter.ViewHolder>() {
 
     companion object {
@@ -50,12 +53,14 @@ class MemoryBoardAdapter(
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val imageButton = itemView.findViewById<ImageButton>(R.id.imageButton)
         fun bind(position: Int) {
-            imageButton.setImageResource(
-                if(cards[position].isFacedUp)
-                    cards[position].identifier
-                else
-                    R.drawable.ic_launcher_background
-            )
+            val memoryCard = cards[position]
+            imageButton.setImageResource(if (memoryCard.isFacedUp) memoryCard.identifier else R.drawable.ic_launcher_background)
+            imageButton.alpha = (if (memoryCard.isMatched) .4f else 1.0f)
+            val colorStateList = if (memoryCard.isMatched) ContextCompat.getColorStateList(
+                context,
+                R.color.grey
+            ) else null
+            ViewCompat.setBackgroundTintList(imageButton, colorStateList)
             imageButton.setOnClickListener {
                 Log.i(TAG, "Clicked on position $position")
                 cardClickListener.onCardClicked(position)

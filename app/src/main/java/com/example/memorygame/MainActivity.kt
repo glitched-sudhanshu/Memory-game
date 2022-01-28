@@ -4,9 +4,11 @@ import android.animation.ArgbEvaluator
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -77,8 +79,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showNewSizeDialog() {
-        showAlertDialog("Choose new size", null, View.OnClickListener {
+        val boardSizeView = LayoutInflater.from(this).inflate(R.layout.dialog_board_size, null)
+        val radioGroupSize = boardSizeView.findViewById<RadioGroup>(R.id.rbGroup)
+        when(boardSize){
+            BoardSize.EASY -> radioGroupSize.check(R.id.rbEasy)
+            BoardSize.MEDIUM -> radioGroupSize.check(R.id.rbMedium)
+            BoardSize.HARD -> radioGroupSize.check(R.id.rbHard)
+        }
+        showAlertDialog("Choose new size", boardSizeView, View.OnClickListener {
             //set new value for board size
+            boardSize = when(radioGroupSize.checkedRadioButtonId){
+                R.id.rbEasy -> BoardSize.EASY
+                R.id.rbMedium -> BoardSize.MEDIUM
+                else -> BoardSize.HARD
+            }
+            setupBoard()
         })
     }
 

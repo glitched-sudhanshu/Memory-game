@@ -3,6 +3,7 @@ package com.example.memorygame.utlis
 import com.example.memorygame.models.BoardSize
 import com.example.memorygame.models.MemoryCard
 
+//Main game logic
 class MemoryGame(private val boardSize: BoardSize) {
 
 

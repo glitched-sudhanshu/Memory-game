@@ -11,15 +11,18 @@
         <entry key="..\:/App_Dev/Android_Studio/Kotlin/Memory_Game/app/src/main/res/drawable/ic_flag.xml" value="0.2703125" />
         <entry key="..\:/App_Dev/Android_Studio/Kotlin/Memory_Game/app/src/main/res/drawable/ic_hand.xml" value="0.2703125" />
         <entry key="..\:/App_Dev/Android_Studio/Kotlin/Memory_Game/app/src/main/res/drawable/ic_money.xml" value="0.2703125" />
+        <entry key="..\:/App_Dev/Android_Studio/Kotlin/Memory_Game/app/src/main/res/drawable/ic_moon.xml" value="0.1296875" />
         <entry key="..\:/App_Dev/Android_Studio/Kotlin/Memory_Game/app/src/main/res/drawable/ic_song.xml" value="0.2703125" />
         <entry key="..\:/App_Dev/Android_Studio/Kotlin/Memory_Game/app/src/main/res/drawable/ic_sun.xml" value="0.2703125" />
         <entry key="..\:/App_Dev/Android_Studio/Kotlin/Memory_Game/app/src/main/res/drawable/ic_titanic.xml" value="0.2703125" />
+        <entry key="..\:/App_Dev/Android_Studio/Kotlin/Memory_Game/app/src/main/res/drawable/ic_turn.xml" value="0.26666666666666666" />
         <entry key="..\:/App_Dev/Android_Studio/Kotlin/Memory_Game/app/src/main/res/drawable/ic_umbrella.xml" value="0.2703125" />
+        <entry key="..\:/App_Dev/Android_Studio/Kotlin/Memory_Game/app/src/main/res/drawable/turn.xml" value="0.26666666666666666" />
         <entry key="..\:/App_Dev/Android_Studio/Kotlin/Memory_Game/app/src/main/res/layout-night/activity_main.xml" value="0.25416666666666665" />
         <entry key="..\:/App_Dev/Android_Studio/Kotlin/Memory_Game/app/src/main/res/layout/activity_main.xml" value="0.23992133726647" />
         <entry key="..\:/App_Dev/Android_Studio/Kotlin/Memory_Game/app/src/main/res/layout/dialog_board_size.xml" value="0.25963149078726966" />
-        <entry key="..\:/App_Dev/Android_Studio/Kotlin/Memory_Game/app/src/main/res/layout/memory_card.xml" value="0.25416666666666665" />
-        <entry key="..\:/App_Dev/Android_Studio/Kotlin/Memory_Game/app/src/main/res/menu/menu_main.xml" value="0.264" />
+        <entry key="..\:/App_Dev/Android_Studio/Kotlin/Memory_Game/app/src/main/res/layout/memory_card.xml" value="0.264" />
+        <entry key="..\:/App_Dev/Android_Studio/Kotlin/Memory_Game/app/src/main/res/menu/menu_main.xml" value="0.25052083333333336" />
       </map>
     </option>
   </component>

@@ -1,5 +1,6 @@
 package com.example.memorygame.models
 
+//board size
 enum class BoardSize(val numCards: Int) {
     EASY(8),
     MEDIUM(18),

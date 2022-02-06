@@ -10,4 +10,5 @@
     <color name="grey">#A3A1A1</color>
     <color name="no_progress">#EE1809</color>
     <color name="full_progress">#1C4A03</color>
+    <color name="greyish">#DCD2CC</color>
 </resources>

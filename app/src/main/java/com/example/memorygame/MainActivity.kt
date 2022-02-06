@@ -26,6 +26,8 @@ class MainActivity : AppCompatActivity() {
         private const val TAG = "MainActivity"
     }
 
+
+    //declaring views
     private lateinit var rvBoard: RecyclerView
     private lateinit var clRoot: ConstraintLayout
     private lateinit var txtMovesNum: TextView
@@ -33,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapter: MemoryBoardAdapter
     private lateinit var memoryGame: MemoryGame
 
+    //default board size is EASY
     private var boardSize: BoardSize = BoardSize.EASY
 
 
@@ -40,20 +43,25 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        rvBoard = findViewById(R.id.rvBoard)
-        txtMovesNum = findViewById(R.id.txtMovesNum)
-        txtPairsNum = findViewById(R.id.txtPairsNum)
-        clRoot = findViewById(R.id.clRoot)
+        //initializing views
+        initViews()
 
+        //setting up the game board
         setupBoard()
+
     }
 
+
+    //we have to override this function to create a menu option in the app bar. The inflater takes a menu resource file to create a link to that xml file.
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 
+
+    //we have to override this function to add what to do if an item is selected. It can considered as onClickListener
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        //itemId is inbuilt function to get the itemId of the selected menu option/
         when(item.itemId){
             R.id.mi_refresh -> {
                 if (memoryGame.numMoves() > 0 && !memoryGame.haveWonGame()) {
@@ -73,14 +81,57 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
 
+            R.id.mi_custom -> {
+                showCreationDialog()
+            }
         }
-
         return super.onOptionsItemSelected(item)
     }
 
+    private fun showCreationDialog() {
+        val boardSizeView = LayoutInflater.from(this).inflate(R.layout.dialog_board_size, null)
+        val radioGroupSize = boardSizeView.findViewById<RadioGroup>(R.id.rbGroup)
+
+        showAlertDialog("Create your own memory board", boardSizeView, View.OnClickListener {
+            //set new value for board size
+            val desiredBoardSize = when(radioGroupSize.checkedRadioButtonId){
+                R.id.rbEasy -> BoardSize.EASY
+                R.id.rbMedium -> BoardSize.MEDIUM
+                else -> BoardSize.HARD
+            }
+            //navigate to new activity
+        })
+    }
+
+
+    //initializing views
+    private fun initViews(){
+        rvBoard = findViewById(R.id.rvBoard)
+        txtMovesNum = findViewById(R.id.txtMovesNum)
+        txtPairsNum = findViewById(R.id.txtPairsNum)
+        clRoot = findViewById(R.id.clRoot)
+    }
+
+
+    //alert dialog box to restart the game
+    private fun showAlertDialog(title: String, view: View?, positiveClickListener: View.OnClickListener) {
+        AlertDialog.Builder(this)
+            .setTitle(title)
+            .setView(view)
+            .setNegativeButton("Cancel", null)
+            .setPositiveButton("OK"){
+                    _,_->positiveClickListener.onClick(null)
+            }.show()
+
+    }
+
+
+    //alert dialog box to set new board size
     private fun showNewSizeDialog() {
         val boardSizeView = LayoutInflater.from(this).inflate(R.layout.dialog_board_size, null)
         val radioGroupSize = boardSizeView.findViewById<RadioGroup>(R.id.rbGroup)
+
+        //assigning values to different radio buttons
         when(boardSize){
             BoardSize.EASY -> radioGroupSize.check(R.id.rbEasy)
             BoardSize.MEDIUM -> radioGroupSize.check(R.id.rbMedium)
@@ -97,17 +148,8 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun showAlertDialog(title: String, view: View?, positiveClickListener: View.OnClickListener) {
-        AlertDialog.Builder(this)
-            .setTitle(title)
-            .setView(view)
-            .setNegativeButton("Cancel", null)
-            .setPositiveButton("OK"){
-                _,_->positiveClickListener.onClick(null)
-            }.show()
 
-    }
-
+    //setting up the game board
     private fun setupBoard(){
 
         when(boardSize){
@@ -125,6 +167,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        //initial color of text views.
         txtPairsNum.setTextColor(ContextCompat.getColor(this, R.color.no_progress))
 
         memoryGame = MemoryGame(boardSize)
@@ -145,6 +188,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    //main game logic
     private fun updateGameWithFlip(position: Int) {
         //Error checking
         if (memoryGame.haveWonGame()) {
@@ -159,14 +203,20 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (memoryGame.flipCard(position)) {
+
+            //to change color of text views as the game proceeds
             val color = ArgbEvaluator().evaluate(
                 memoryGame.numPairsFound.toFloat() / boardSize.getPairs(),
             ContextCompat.getColor(this, R.color.no_progress),
             ContextCompat.getColor(this, R.color.full_progress)
             ) as Int
+
             txtPairsNum.setTextColor(color)
+
             Log.i(TAG, "updateGameWithFlip: No. of pairs found " + memoryGame.numPairsFound)
+
             txtPairsNum.text = "Pairs: ${memoryGame.numPairsFound} / ${boardSize.getPairs()}"
+
             if (memoryGame.haveWonGame()){
                 Snackbar.make(clRoot, "Congratulations, You won!!", Snackbar.LENGTH_LONG).show()
             }

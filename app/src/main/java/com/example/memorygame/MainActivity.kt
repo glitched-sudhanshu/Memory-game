@@ -1,6 +1,7 @@
 package com.example.memorygame
 
 import android.animation.ArgbEvaluator
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -16,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.memorygame.models.BoardSize
+import com.example.memorygame.utlis.EXTRA_BOARD_SIZE
 import com.example.memorygame.utlis.MemoryGame
 import com.google.android.material.snackbar.Snackbar
 
@@ -24,6 +26,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "MainActivity"
+        private const val CREATE_REQUEST_CODE = 248
     }
 
 
@@ -49,6 +52,10 @@ class MainActivity : AppCompatActivity() {
         //setting up the game board
         setupBoard()
 
+        //for my use only
+        val myIntent = Intent(this, CreateActivity::class.java)
+        myIntent.putExtra(EXTRA_BOARD_SIZE, BoardSize.HARD)
+        startActivity(myIntent)
     }
 
 
@@ -92,15 +99,18 @@ class MainActivity : AppCompatActivity() {
         val boardSizeView = LayoutInflater.from(this).inflate(R.layout.dialog_board_size, null)
         val radioGroupSize = boardSizeView.findViewById<RadioGroup>(R.id.rbGroup)
 
-        showAlertDialog("Create your own memory board", boardSizeView, View.OnClickListener {
+        showAlertDialog("Create your own memory board", boardSizeView) {
             //set new value for board size
-            val desiredBoardSize = when(radioGroupSize.checkedRadioButtonId){
+            val desiredBoardSize = when (radioGroupSize.checkedRadioButtonId) {
                 R.id.rbEasy -> BoardSize.EASY
                 R.id.rbMedium -> BoardSize.MEDIUM
                 else -> BoardSize.HARD
             }
             //navigate to new activity
-        })
+            val intent = Intent(this, CreateActivity::class.java)
+            intent.putExtra(EXTRA_BOARD_SIZE, desiredBoardSize)
+            startActivityForResult(intent, CREATE_REQUEST_CODE)
+        }
     }
 
 

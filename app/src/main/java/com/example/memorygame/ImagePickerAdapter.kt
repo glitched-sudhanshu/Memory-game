@@ -1,7 +1,10 @@
 package com.example.memorygame
 
+import android.app.ActionBar
+import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,11 +13,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.memorygame.models.BoardSize
 import kotlin.math.min
 
+
+
 class ImagePickerAdapter(private val context: Context,
                          private val imageUris: List<Uri>,
                          private val boardSize: BoardSize,
                          private val imageClickListener: ImageClickListener
 ) : RecyclerView.Adapter<ImagePickerAdapter.ViewHolder>() {
+
+    companion object{
+        private const val MARGIN_SIZE = 10
+    }
 
     //interface to invoke an intent to go to gallery to choose picture
     interface ImageClickListener{
@@ -23,12 +32,14 @@ class ImagePickerAdapter(private val context: Context,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.card_image, parent, false)
-        val cardWidth = parent.width/boardSize.getWidth()
-        val cardHeight = parent.width/boardSize.getHeight()
+        val cardWidth = parent.width/boardSize.getWidth() - (2* MARGIN_SIZE)
+        val cardHeight = parent.height/boardSize.getHeight() - (2* MARGIN_SIZE)
         val cardSizeLength = min(cardHeight, cardWidth)
-        val layoutParams = view.findViewById<ImageView>(R.id.ivCustomImage).layoutParams
+        val layoutParams = view.findViewById<ImageView>(R.id.ivCustomImage).layoutParams as ViewGroup.MarginLayoutParams
         layoutParams.height = cardSizeLength
         layoutParams.width = cardSizeLength
+        layoutParams.setMargins(MARGIN_SIZE, MARGIN_SIZE, MARGIN_SIZE, MARGIN_SIZE)
+        Log.i(ContentValues.TAG, "Image height: $cardSizeLength")
         return ViewHolder(view)
 
     }

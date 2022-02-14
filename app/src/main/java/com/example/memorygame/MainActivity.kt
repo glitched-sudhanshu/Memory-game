@@ -1,6 +1,7 @@
 package com.example.memorygame
 
 import android.animation.ArgbEvaluator
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -147,19 +148,20 @@ class MainActivity : AppCompatActivity() {
             BoardSize.MEDIUM -> radioGroupSize.check(R.id.rbMedium)
             BoardSize.HARD -> radioGroupSize.check(R.id.rbHard)
         }
-        showAlertDialog("Choose new size", boardSizeView, View.OnClickListener {
+        showAlertDialog("Choose new size", boardSizeView) {
             //set new value for board size
-            boardSize = when(radioGroupSize.checkedRadioButtonId){
+            boardSize = when (radioGroupSize.checkedRadioButtonId) {
                 R.id.rbEasy -> BoardSize.EASY
                 R.id.rbMedium -> BoardSize.MEDIUM
                 else -> BoardSize.HARD
             }
             setupBoard()
-        })
+        }
     }
 
 
     //setting up the game board
+    @SuppressLint("SetTextI18n")
     private fun setupBoard(){
 
         when(boardSize){
